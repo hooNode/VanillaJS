@@ -20,8 +20,6 @@ input.addEventListener("input", (e) => {
 
     timer = setTimeout(() => {
         const getData = async () => {
-            // const url = "https://wr4a6p937i.execute-api.ap-northeast-2.amazonaws.com/dev/languages?keyword=" + inputValue;
-            
             const url = new URL('./dev/languages', 'https://wr4a6p937i.execute-api.ap-northeast-2.amazonaws.com')
             url.searchParams.set("keyword", inputValue)
             
