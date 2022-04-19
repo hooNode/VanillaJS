@@ -8,6 +8,7 @@ let inputValue;
 let timer;
 
 input.addEventListener("input", (e) => {
+    // 아니이거 왜이래요
     inputValue = e.target.value;
     const suggestion = document.querySelector(".Suggestion");
 
