@@ -1,5 +1,8 @@
 const main = document.querySelector(".App");
 const input = document.querySelector(".SearchInput__input");
+const form = document.querySelector(".SearchInput");
+const tags = document.querySelector(".SelectedLanguage");
+const tagsUl = document.createElement("ul");
 
 let inputValue;
 let timer;
@@ -10,8 +13,8 @@ input.addEventListener("input", (e) => {
 
     if (timer) clearTimeout(timer);
     if (suggestion) {
-        main.removeChild(suggestion)
         window.removeEventListener("keydown", selectSuggestion);
+        main.removeChild(suggestion)
     };
     if (!e.target.value) return;
 
@@ -31,17 +34,22 @@ input.addEventListener("input", (e) => {
                 const div = document.createElement("div");
                 div.className = "Suggestion";                
                 const ul = document.createElement("ul");
-                
-                result.forEach((data, idx) => {
-                    const li = document.createElement("li");
-                    // const span = document.createElement("span");
-                    
-                    if (!idx) li.className = "Suggestion__item--selected";
 
-                    li.textContent = data;
+                if (!result.length) {
+                    const li = document.createElement("li");
+                    li.textContent = "검색 결과가 없습니다.";
                     ul.appendChild(li)
-                });
-                
+                } else {
+                    result.forEach((data, idx) => {
+                        const li = document.createElement("li");
+                        // const span = document.createElement("span");
+                        
+                        if (!idx) li.className = "Suggestion__item--selected";
+    
+                        li.textContent = data;
+                        ul.appendChild(li)
+                    });
+                }
                 div.appendChild(ul);
                 main.appendChild(div);
                 window.addEventListener("keydown", selectSuggestion);
@@ -53,7 +61,7 @@ input.addEventListener("input", (e) => {
     }, 500)    
 })
 
-function selectSuggestion(e) {
+const selectSuggestion = (e) => {
     if (!document.querySelector(".Suggestion")) return;
 
     const suggestion = document.querySelector(".Suggestion");
@@ -75,10 +83,53 @@ function selectSuggestion(e) {
         target[index + 1].className = "Suggestion__item--selected" 
     }
     else if (e.key === "Enter") {
+        e.preventDefault();
         alert(target[index].textContent)
+        addTag(target[index].textContent);
     }
 }
 
-function clickEvent(e) {
+const clickEvent = (e) => {
     alert(e.target.textContent)
+    addTag(e.target.textContent);
+}
+
+const addTag = (name) => {
+    const result = valid(name)
+    
+    if (!result) return;
+
+    const li = document.createElement("li");
+    li.textContent = name;
+    
+    tagsUl.appendChild(li);
+    tags.appendChild(tagsUl);
+}
+
+const valid = (name) => {
+    const target = tagsUl.childNodes;
+    let isRepeat = false, index;
+    
+    if (!target.length) return true;
+
+    target.forEach((data, idx) => {
+        if (data.textContent === name) {
+            index = idx;
+            isRepeat = true;
+        }
+    }) 
+    
+    if (isRepeat) {
+        if (index === target.length - 1) return false;
+        else {
+            tagsUl.removeChild(target[index]);
+            return true;
+        }
+    } else {
+        if (target.length !== 5) return true;
+        else {
+            tagsUl.removeChild(tagsUl.firstChild);
+            return true;
+        }
+    }
 }
