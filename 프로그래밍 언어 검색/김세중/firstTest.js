@@ -14,7 +14,7 @@ searchInput.addEventListener('input', async () => {
   if(!searchInput.value) return
 
   const result = await axios.get(`https://wr4a6p937i.execute-api.ap-northeast-2.amazonaws.com/dev/languages?keyword=${inputValue}`)
-  console.log(result)
+  console.log(result.data)
   if(result.data.length===0) {
   suggestionUlLi.forEach(el => {
     el.remove()
@@ -41,12 +41,14 @@ searchInput.addEventListener('input', async () => {
 const arrowFunc = (e) => {
 
   const suggestionGroup = document.querySelectorAll(".Suggestion ul li")
+
   if(e.key ==='ArrowUp') {
     suggestionGroup[index].classList.remove('Suggestion__item--selected')
     if(!index) index=suggestionGroup.length - 1
     else index -= 1
     suggestionGroup[index].classList.add('Suggestion__item--selected')
   }
+  
   if(e.key ==='ArrowDown') {
     suggestionGroup[index].classList.remove('Suggestion__item--selected')
     if(index === suggestionGroup.length - 1) index=0
