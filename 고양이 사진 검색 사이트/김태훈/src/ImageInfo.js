@@ -38,26 +38,9 @@ class ImageInfo {
         </detail>`;
       this.$imageInfo.style.display = "block";
     } else {
-      console.log("언제실행됨?");
       this.$imageInfo.style.display = "none";
     }
-
-    function outsideClick(e) {
-      if (e.target === modal) {
-        modal.classList.add("fade-out");
-        setTimeout(() => {
-          modal.style.display = "none";
-          modal.classList.remove("fade-out");
-        }, 1000);
-
-        if (modal.classList.contains("fade-in")) {
-          modal.classList.remove("fade-in");
-        }
-      }
-    }
-
     this.$imageInfo.addEventListener("click", (e) => {
-      console.log(e.target.className);
       const quitClassNames = ["close", "ImageInfo", "ImageInfo .active"];
       if (quitClassNames.includes(e.target.className)) {
         this.onClickQuit();

@@ -3,6 +3,7 @@ console.log("app is running!");
 class App {
   $target = null;
   data = [];
+  recentKeywords = [];
 
   constructor($target) {
     this.$target = $target;
@@ -11,10 +12,61 @@ class App {
       $target,
     });
 
+    let tempKeywords = "";
     this.searchInput = new SearchInput({
       $target,
+      recentKeywords: this.recentKeywords,
       onSearch: async (keyword) => {
-        await api.fetchCats(keyword).then(({ data }) => this.setState(data));
+        try {
+          if (this.data?.length !== 0 || tempKeywords !== keyword) {
+            document.querySelector(".SearchResult").innerHTML = `
+            <div style="display: flex; justify-content: center; align-items: center; width: 400%; height: 50vh; font-size: 24px; font-weight: bold;">
+              <p>데이터를 로딩 중입니다...</p>
+            </div>
+            `;
+          }
+          await api.fetchCats(keyword).then(({ data }) => {
+            this.setState(data);
+            tempKeywords = keyword;
+          });
+        } catch (e) {
+          console.warn(e);
+        }
+      },
+      getSearchData: (nextData) => {
+        if (
+          !this.recentKeywords.includes(nextData) &&
+          this.recentKeywords.length > 4
+        ) {
+          const [first, ...rest] = this.recentKeywords;
+          this.setRecentKeywords([...rest, nextData]);
+        } else if (!this.recentKeywords.includes(nextData)) {
+          this.setRecentKeywords([...this.recentKeywords, nextData]);
+        }
+      },
+    });
+
+    let recentKeywords = "";
+
+    this.recentSearch = new RecentSearch({
+      $target,
+      recentKeywords: this.recentKeywords,
+      onSearch: async (keyword) => {
+        try {
+          if (this.data?.length !== 0 || recentKeywords !== keyword) {
+            document.querySelector(".SearchResult").innerHTML = `
+            <div style="display: flex; justify-content: center; align-items: center; width: 400%; height: 50vh; font-size: 24px; font-weight: bold;">
+              <p>데이터를 로딩 중입니다...</p>
+            </div>
+            `;
+          }
+          await api.fetchCats(keyword).then(({ data }) => {
+            this.setState(data);
+            recentKeywords = keyword;
+          });
+        } catch (e) {
+          console.dir(e);
+        }
       },
     });
 
@@ -22,14 +74,17 @@ class App {
       $target,
       initialData: this.data,
       onClick: async (image) => {
-        console.log(image);
-        await api.fetchCatDetail(image.id).then(({ data }) => {
-          console.log(data);
-          this.imageInfo.setState({
-            visible: true,
-            image: data,
+        try {
+          await api.fetchCatDetail(image.id).then(({ data }) => {
+            console.log(data);
+            this.imageInfo.setState({
+              visible: true,
+              image: data,
+            });
           });
-        });
+        } catch (e) {
+          console.dir(e);
+        }
       },
     });
 
@@ -54,5 +109,10 @@ class App {
   setState(nextData) {
     this.data = nextData;
     this.searchResult.setState(nextData);
+  }
+
+  setRecentKeywords(nextData) {
+    this.recentKeywords = nextData;
+    this.recentSearch.setState(nextData);
   }
 }
