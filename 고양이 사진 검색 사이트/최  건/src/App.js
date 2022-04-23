@@ -1,42 +1,41 @@
-console.log("app is running!");
+import SearchResult from "./SearchResult.js";
+import SearchInput from "./SearchInput.js";
+import ImageInfo from "./ImageInfo.js";
 
-class App {
-  $target = null;
-  data = [];
+export default function App({ $target }) {
+  let data = [];
 
-  constructor($target) {
-    this.$target = $target;
+  console.log("aaa");
 
-    this.searchInput = new SearchInput({
-      $target,
-      onSearch: (keyword) => {
-        api.fetchCats(keyword).then(({ data }) => this.setState(data));
-      },
-    });
+  const searchInput = SearchInput({
+    $target,
+    onSearch: (keyword) => {
+      api.fetchCats(keyword).then(({ data }) => setState(data));
+    },
+  });
 
-    this.searchResult = new SearchResult({
-      $target,
-      initialData: this.data,
-      onClick: (image) => {
-        this.imageInfo.setState({
-          visible: true,
-          image,
-        });
-      },
-    });
+  const searchResult = SearchResult({
+    $target,
+    initialData: data,
+    onClick: (image) => {
+      imageInfo.setState({
+        visible: true,
+        image,
+      });
+    },
+  });
 
-    this.imageInfo = new ImageInfo({
-      $target,
-      data: {
-        visible: false,
-        image: null,
-      },
-    });
-  }
+  const imageInfo = ImageInfo({
+    $target,
+    data: {
+      visible: false,
+      image: null,
+    },
+  });
 
-  setState(nextData) {
+  const setState = (nextData) => {
     console.log(this);
-    this.data = nextData;
-    this.searchResult.setState(nextData);
-  }
+    data = nextData;
+    searchResult.setState(nextData);
+  };
 }
