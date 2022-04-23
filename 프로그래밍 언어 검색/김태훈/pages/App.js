@@ -4,7 +4,6 @@ import SelectedLanguage from "../src/component/SelectedLanguage.js";
 import { getSearchData } from "../src/api/getSearchData.js";
 
 export default function App({ $target }) {
-  console.log("zz");
   this.state = {
     fetchedLanguages:
       JSON.parse(localStorage.getItem("fetchedLanguages")) || [],

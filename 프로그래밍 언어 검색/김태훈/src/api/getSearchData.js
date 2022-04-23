@@ -4,6 +4,7 @@ const baseUrl =
 const cache = {};
 export const getSearchData = async (keywords) => {
   if (cache[keywords]) {
+    console.log("zzzz");
     return cache[keywords];
   }
   const res = await fetch(`${baseUrl}/languages?keyword=${keywords}`);

@@ -13,8 +13,6 @@ export default function SearchInput({ $target, initialState, onChange }) {
       `;
   };
 
-  this.render();
-
   this.$element.addEventListener("keyup", (e) => {
     const keyType = ["ArrowDown", "ArrowUp"];
     if (!keyType.includes(e.key)) {
@@ -26,4 +24,6 @@ export default function SearchInput({ $target, initialState, onChange }) {
   this.$element.addEventListener("submit", (e) => {
     e.preventDefault();
   });
+
+  this.render();
 }

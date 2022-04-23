@@ -7,20 +7,28 @@ class App {
   constructor($target) {
     this.$target = $target;
 
+    this.toggle = new Toggle({
+      $target,
+    });
+
     this.searchInput = new SearchInput({
       $target,
-      onSearch: (keyword) => {
-        api.fetchCats(keyword).then(({ data }) => this.setState(data));
+      onSearch: async (keyword) => {
+        await api.fetchCats(keyword).then(({ data }) => this.setState(data));
       },
     });
 
     this.searchResult = new SearchResult({
       $target,
       initialData: this.data,
-      onClick: (image) => {
-        this.imageInfo.setState({
-          visible: true,
-          image,
+      onClick: async (image) => {
+        console.log(image);
+        await api.fetchCatDetail(image.id).then(({ data }) => {
+          console.log(data);
+          this.imageInfo.setState({
+            visible: true,
+            image: data,
+          });
         });
       },
     });
@@ -31,11 +39,19 @@ class App {
         visible: false,
         image: null,
       },
+      onClickQuit: () => {
+        document.querySelector(".ImageInfo").classList.add("fade-out");
+        setTimeout(() => {
+          document.querySelector(".ImageInfo").classList.remove("fade-out");
+          this.imageInfo.setState({
+            visible: false,
+          });
+        }, 1000);
+      },
     });
   }
 
   setState(nextData) {
-    console.log(this);
     this.data = nextData;
     this.searchResult.setState(nextData);
   }
