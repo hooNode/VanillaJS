@@ -7,8 +7,43 @@ const tagsUl = document.createElement("ul");
 let inputValue;
 let timer;
 
+const getData = async () => {
+    const url = new URL('./dev/languages', 'https://wr4a6p937i.execute-api.ap-northeast-2.amazonaws.com')
+    url.searchParams.set("keyword", inputValue)
+    
+    let response = await fetch(url.href, {
+        method: 'GET',
+    });
+    
+    if (response.ok) {
+        const result = await response.json();
+        const div = document.createElement("div");
+        div.className = "Suggestion";                
+        const ul = document.createElement("ul");
+
+        if (!result.length) {
+            const li = document.createElement("li");
+            li.textContent = "검색 결과가 없습니다.";
+            ul.appendChild(li)
+        } else {
+            result.forEach((data, idx) => {
+                const li = document.createElement("li");
+                // const span = document.createElement("span");
+                
+                if (!idx) li.className = "Suggestion__item--selected";
+
+                li.textContent = data;
+                ul.appendChild(li)
+            });
+        }
+        div.appendChild(ul);
+        main.appendChild(div);
+        window.addEventListener("keydown", selectSuggestion);
+        ul.addEventListener("click", clickEvent)
+    }
+}
+
 input.addEventListener("input", (e) => {
-    // 아니이거 왜이래요
     inputValue = e.target.value;
     const suggestion = document.querySelector(".Suggestion");
 
@@ -20,42 +55,6 @@ input.addEventListener("input", (e) => {
     if (!e.target.value) return;
 
     timer = setTimeout(() => {
-        const getData = async () => {
-            const url = new URL('./dev/languages', 'https://wr4a6p937i.execute-api.ap-northeast-2.amazonaws.com')
-            url.searchParams.set("keyword", inputValue)
-            
-            let response = await fetch(url.href, {
-                method: 'GET',
-            });
-            
-            if (response.ok) {
-                const result = await response.json();
-                const div = document.createElement("div");
-                div.className = "Suggestion";                
-                const ul = document.createElement("ul");
-
-                if (!result.length) {
-                    const li = document.createElement("li");
-                    li.textContent = "검색 결과가 없습니다.";
-                    ul.appendChild(li)
-                } else {
-                    result.forEach((data, idx) => {
-                        const li = document.createElement("li");
-                        // const span = document.createElement("span");
-                        
-                        if (!idx) li.className = "Suggestion__item--selected";
-    
-                        li.textContent = data;
-                        ul.appendChild(li)
-                    });
-                }
-                div.appendChild(ul);
-                main.appendChild(div);
-                window.addEventListener("keydown", selectSuggestion);
-                ul.addEventListener("click", clickEvent)
-            }
-        }
-        
         getData();
     }, 500)    
 })
@@ -83,7 +82,7 @@ const selectSuggestion = (e) => {
     }
     else if (e.key === "Enter") {
         e.preventDefault();
-        alert(target[index].textContent)
+        alert(target[index].textContent);
         addTag(target[index].textContent);
     }
 }
