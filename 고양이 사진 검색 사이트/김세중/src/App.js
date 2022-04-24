@@ -18,6 +18,7 @@ class App {
       $target,
       initialData: this.data,
       onClick: (image) => {
+        description.fetchCats(String(image.id)).then(({ data }) => console.log(data))
         this.imageInfo.setState({
           visible: true,
           image,
