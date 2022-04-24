@@ -1,4 +1,4 @@
-export default function ImageInfo({ $target, data }) {
+export default function ImageInfo({ $target, data, onClose }) {
   const $imageInfo = document.createElement("div");
   $imageInfo.className = "ImageInfo";
   $target.appendChild($imageInfo);
@@ -21,11 +21,13 @@ export default function ImageInfo({ $target, data }) {
               <div>태생: ${origin}</div>
             </div>
           </div>`;
+      $imageInfo.querySelector('.close').addEventListener('click', () => {onClose()});
       $imageInfo.style.display = "block";
     } else {
       $imageInfo.style.display = "none";
     }
   };
+
 
   const setState = (nextData) => {
     data = nextData;

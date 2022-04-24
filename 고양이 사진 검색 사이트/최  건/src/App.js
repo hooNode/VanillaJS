@@ -6,20 +6,18 @@ import { api } from "./api.js"
 
 export default function App({ $target }) {
   let data = [];
+  let isDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+  const $body = document.querySelector('body');
 
-  console.log("aaa");
-
-  const darkModeToggle = DarkModeToggle({
+  DarkModeToggle({
     $target,
-    onClick: (image) => {
-      imageInfo.setState({
-        visible: true,
-        image,
-      });
-    },
+    initialData: data,
+    onChange: (isDark) => {
+      setTheme(isDark);
+    }
   });
 
-  const searchInput = SearchInput({
+  SearchInput({
     $target,
     onSearch: (keyword) => {
       api.fetchCats(keyword).then(({ data }) => setState(data));
@@ -37,16 +35,44 @@ export default function App({ $target }) {
     },
   });
   
+  const onClose = () => {
+    imageInfo.setState({
+      visible: false,
+      image: null
+    });
+  };
+
   const imageInfo = ImageInfo({
     $target,
     data: {
       visible: false,
       image: null,
     },
+    onClose
   });
 
   const setState = (nextData) => {
     data = nextData;
     searchResult.setState(nextData);
   };
+
+  const setTheme = (isDark) => {
+    console.log(isDark)
+    $body.style.backgroundColor = isDark ? "black" : "white";
+  };
+
+  $body.addEventListener('keyup', (e) => {
+    if(e.key === 'Escape')
+      onClose();
+  });
+
+  $body.addEventListener('click', (e) => {
+    if(!data.visible) return;
+    for(let i = 0; i < e.path.length; i++){
+      if(e.path[i].className === "content-wrapper") console.log("a")
+    }
+    if(e.path.filter(p => p.className === "content-wrapper").length > 0)
+      return;
+    onClose();
+  });
 }
