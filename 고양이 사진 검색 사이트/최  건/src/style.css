@@ -24,12 +24,29 @@ body * {
   max-width: 1200px;
   column-gap: 1.5em;
 }
-
 .SearchResult {
   margin-top: 10px;
   display: grid;
-  grid-template-columns: repeat(4, minmax(250px, 1fr));
   grid-gap: 10px;
+  grid-template-columns: repeat(4, minmax(250px, 1fr));
+}
+
+@media (max-width: 992px) {
+  .SearchResult {
+    grid-template-columns: repeat(3, minmax(250px, 1fr)); 
+  } 
+}
+
+@media (max-width: 768px) {
+  .SearchResult {
+    grid-template-columns: repeat(2, minmax(250px, 1fr)); 
+  } 
+}
+
+@media (max-width: 576px) {
+  .SearchResult {
+    grid-template-columns: repeat(1, minmax(250px, 1fr)); 
+  } 
 }
 
 .SearchResult img {
