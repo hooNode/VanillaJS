@@ -8,3 +8,10 @@ const api = {
     );
   }
 };
+const description = {
+  fetchCats: id => {
+    return fetch(`${API_ENDPOINT}/api/cats/id?q=${id}`).then(res =>
+      res.json()
+    );
+  }
+}

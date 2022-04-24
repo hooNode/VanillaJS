@@ -17,16 +17,19 @@ class ImageInfo {
       this.data = nextData;
       this.render();
     }
-  
+    close() {
+      this.$imageInfo.style.display = "none";
+      console.log("sdfsdf")
+    }
     render() {
       if (this.data.visible) {
-        const { name, url, temperament, origin } = this.data.image;
+        const { name, url, temperament, origin }  = this.data.image;
   
         this.$imageInfo.innerHTML = `
           <div class="content-wrapper">
             <div class="title">
               <span>${name}</span>
-              <div class="close">x</div>
+              <div class="close" onclick="${this.close()}">x</div>
             </div>
             <img src="${url}" alt="${name}"/>        
             <div class="description">
