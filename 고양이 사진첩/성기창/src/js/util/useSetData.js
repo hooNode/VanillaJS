@@ -1,7 +1,7 @@
 import { useApi } from "../api/api.js";
 import Loading from "../Loading.js";
 
-export const useSetData = ({ $target }) => {
+export const useSetData = ({ $target, setState }) => {
   const { get } = useApi();
 
   const loading = Loading({
@@ -9,7 +9,7 @@ export const useSetData = ({ $target }) => {
     isVisible: false,
   });
 
-  const setBreadCrumb = (state, cache, pathName, setState) => {
+  const setBreadCrumb = (state, cache, pathName) => {
     const key = state.path.indexOf(pathName);
     const index = state.path.indexOf(pathName);
     const path = state.path.slice(0, index + 1);
@@ -23,7 +23,7 @@ export const useSetData = ({ $target }) => {
     });
   };
 
-  const setNodes = async (state, cache, data, setState) => {
+  const setNodes = async (state, cache, data) => {
     loading.LoadingHandler(true);
 
     let newFetchData;
@@ -48,7 +48,7 @@ export const useSetData = ({ $target }) => {
     loading.LoadingHandler(false);
   };
 
-  const setPrevNodes = (state, cache, setState) => {
+  const setPrevNodes = (state, cache) => {
     loading.LoadingHandler(true);
 
     const newPath = state.path;
@@ -68,7 +68,7 @@ export const useSetData = ({ $target }) => {
     loading.LoadingHandler(false);
   };
 
-  const setInit = async (cache, setState) => {
+  const setInit = async (cache) => {
     loading.LoadingHandler(true);
     const rootData = await get();
 
