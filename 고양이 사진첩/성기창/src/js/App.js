@@ -6,10 +6,6 @@ import { useSetData } from "./util/useSetData.js";
 const cache = {};
 
 export default function App({ $target }) {
-  const { setBreadCrumb, setNodes, setPrevNodes, setInit } = useSetData({
-    $target,
-  });
-
   let state = {
     fetchData: null,
     path: null,
@@ -20,7 +16,7 @@ export default function App({ $target }) {
     $target,
     initialData: [],
     onClick: async (pathName) => {
-      setBreadCrumb(state, cache, pathName, setState);
+      setBreadCrumb(state, cache, pathName);
     },
   });
 
@@ -30,7 +26,7 @@ export default function App({ $target }) {
     path: [],
     onClick: async (data) => {
       if (data.type === "DIRECTORY") {
-        setNodes(state, cache, data, setState);
+        setNodes(state, cache, data);
       } else {
         modalImageViewer.setState({
           image: data.filePath,
@@ -39,7 +35,7 @@ export default function App({ $target }) {
       }
     },
     onClickPrev: () => {
-      setPrevNodes(state, cache, data);
+      setPrevNodes(state, cache);
     },
   });
 
@@ -61,5 +57,10 @@ export default function App({ $target }) {
     });
   };
 
-  setInit(cache, setState);
+  const { setBreadCrumb, setNodes, setPrevNodes, setInit } = useSetData({
+    $target,
+    setState,
+  });
+
+  setInit(cache);
 }
