@@ -10,12 +10,11 @@ class ChangeTheme {
     this.$changeTheme = $changeTheme;
     this.$changeTheme.className = "ChangeTheme";
     this.$changeTheme.textContent = "테마 변경";
-
+    
     $target.appendChild(this.$changeTheme);
 
     $changeTheme.addEventListener("click", () => {
       onClick(this.theme);
-      console.log(this.$changeTheme);
     });
   }
 
