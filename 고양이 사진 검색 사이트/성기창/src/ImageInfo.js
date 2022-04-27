@@ -62,7 +62,7 @@ class ImageInfo {
       this.$imageInfo.style.display = "block";
     } else {
       this.$imageInfo.style.display = "none";
-      // window.removeEventListener();
+      window.removeEventListener("keyup", this.keyupEvent);
     }
   }
 }

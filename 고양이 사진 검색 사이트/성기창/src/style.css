@@ -15,6 +15,11 @@
     grid-template-columns: repeat(1, minmax(250px, 1fr));
   }
 
+  .SearchBtn {
+    position: absolute;
+    right: 7px;
+  }
+
   .PrevSearch {
     width: 94vw;
   }
@@ -38,6 +43,11 @@
     width: 94vw;
   }
 
+  .SearchBtn {
+    position: absolute;
+    right: 7px;
+  }
+
   .ImageInfo {
     width: 98vw;
   }
@@ -54,7 +64,12 @@
   }
 
   .PrevSearch {
-    width: 96vw;
+    width: 100%;
+  }
+
+  .SearchBtn {
+    position: absolute;
+    right: 7px;
   }
 
   .ImageInfo {
@@ -73,7 +88,12 @@
   }
 
   .PrevSearch {
-    width: 96vw;
+    width: 100%;
+  }
+
+  .SearchBtn {
+    position: absolute;
+    right: 7px;
   }
 
   .ImageInfo {
@@ -168,8 +188,6 @@ body * {
 }
 
 .SearchBtn {
-  position: absolute;
-  right: 7px;
   font-size: 30px;
   padding: 16px 10px;
 }
