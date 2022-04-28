@@ -47,7 +47,10 @@ class ImageInfo {
       }
     });
     window.addEventListener("keyup", (e) => {
-      if (e.key === "Escape") this.onClickQuit();
+      if (this.data.visible) {
+        console.log("zzz");
+        if (e.key === "Escape") this.onClickQuit();
+      }
     });
   }
 }
