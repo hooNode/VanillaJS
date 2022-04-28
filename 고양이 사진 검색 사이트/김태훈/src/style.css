@@ -140,3 +140,16 @@ body * {
 .ImageInfo .content-wrapper img {
   width: 100%;
 }
+
+.RecentSearch {
+  display: flex;
+  font-size: 30px;
+  gap: 10px;
+  margin: 20px 0;
+}
+
+.searchList:hover {
+  background-color: gray;
+  color: white;
+  cursor: pointer;
+}

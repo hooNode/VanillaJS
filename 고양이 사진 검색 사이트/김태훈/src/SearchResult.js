@@ -20,20 +20,28 @@ class SearchResult {
   }
 
   render() {
-    this.$searchResult.innerHTML = this.data
-      .map(
-        (cat) => `
+    if (!this.data.length && localStorage.getItem("keyword")) {
+      this.$searchResult.innerHTML = `
+        <div style="display: flex; justify-content: center; align-items: center; width: 400%; height: 50vh; font-size: 24px; font-weight: bold;">
+            <p>찾으시는 데이터가 없습니다.</p>
+        </div>
+      `;
+    } else {
+      this.$searchResult.innerHTML = this.data
+        .map(
+          (cat) => `
           <article class="item">
             <img src=${cat.url} alt=${cat.name} />
           </article>
         `
-      )
-      .join("");
+        )
+        .join("");
 
-    this.$searchResult.querySelectorAll(".item").forEach(($item, index) => {
-      $item.addEventListener("click", () => {
-        this.onClick(this.data?.[index]);
+      this.$searchResult.querySelectorAll(".item").forEach(($item, index) => {
+        $item.addEventListener("click", () => {
+          this.onClick(this.data?.[index]);
+        });
       });
-    });
+    }
   }
 }
