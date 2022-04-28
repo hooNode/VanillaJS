@@ -4,19 +4,22 @@ export default function Breadcrumb({ $target, initialState }) {
   $target.appendChild(this.$element);
 
   this.state = initialState;
-  this.setState = (back, nextState) => {
-    if(back) this.state.pop()
-    else this.state.push(nextState)
+  this.setState = (nextState) => {
+    this.state = nextState;
+    console.log(nextState);
     this.render();
   };
-  this.render = () => { 
+  this.render = () => {
     this.$element.innerHTML = `
-      ${this.state.map((el,index) => `
+      ${this.state
+        .map(
+          (el, index) => `
         <div>
-          <span>  ${index>0? " - " : ""}${el}</span>
+          <span>${el[1]}</span>
         </div>`
-      )}
-    `
-  }
-  this.render()
+        )
+        .join("")}
+    `;
+  };
+  this.render();
 }
