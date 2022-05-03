@@ -36,6 +36,9 @@ export default function App({ $target }) {
       } else {
         this.setState({ ...this.state, body: res, first: false });
       }
+      this.setState({
+        path: [...this.state.path.slice(0, this.state.path.length - 1)],
+      });
     },
   });
 
@@ -44,12 +47,12 @@ export default function App({ $target }) {
     initialState: this.state,
     rootItems: async (nodeId) => {
       const res = await getSearchData(nodeId);
-      console.log(res);
-      if (res.length === 0) {
-        this.setState({ ...this.state, isLoading: true });
-      } else {
-        this.setState({ ...this.state, isLoading: false });
-      }
+      // console.log(res);
+      // if (res.length === 0) {
+      //   this.setState({ ...this.state, isLoading: true });
+      // } else {
+      //   this.setState({ ...this.state, isLoading: false });
+      // }
 
       if (this.state.path.length === 1) {
         this.setState({ ...this.state, body: res, first: true });
