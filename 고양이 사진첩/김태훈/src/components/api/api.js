@@ -1,6 +1,7 @@
 const cache = {};
 export const getSearchData = async (nodeId) => {
   if (cache[nodeId]) {
+    console.log("zz");
     return cache[nodeId];
   }
   let url = "https://zl3m4qq0l9.execute-api.ap-northeast-2.amazonaws.com/dev";

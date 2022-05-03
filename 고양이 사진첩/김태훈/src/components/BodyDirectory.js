@@ -25,6 +25,7 @@ export default function BodyDirectory({
     this.render();
   };
   this.render = () => {
+    console.log(this.state.body);
     console.log(this.state.isLoading);
     if (this.state.isLoading) {
       this.$modal.style.display = "block";
@@ -34,11 +35,12 @@ export default function BodyDirectory({
 
     if (this.state.path?.length === 1) {
       this.$element.innerHTML = `
-      ${this.state.body.map(
-        (directory) => `
+      ${this.state.body
+        .map(
+          (directory) => `
             <div class="Node" id=${directory.id} type=${directory.type} name=${
-          directory.name
-        } filePath=${directory.filePath}>
+            directory.name
+          } filePath=${directory.filePath}>
               ${
                 directory.type === "DIRECTORY"
                   ? `<img src="./assets/directory.png" />`
@@ -47,18 +49,20 @@ export default function BodyDirectory({
               <div>${directory.name}</div>
             </div>
           `
-      )}`;
+        )
+        .join("")}`;
     }
     if (this.state.path?.length > 1) {
       this.$element.innerHTML = `
         <div class="Node" id="prev">
           <img src="./assets/prev.png" />
         </div>
-      ${this.state.body.map(
-        (directory) => `
+      ${this.state.body
+        .map(
+          (directory) => `
             <div class="Node" id=${directory.id} type=${directory.type} name=${
-          directory.name
-        } filePath=${directory.filePath} parent=${directory.parent}>
+            directory.name
+          } filePath=${directory.filePath} parent=${directory.parent}>
               ${
                 directory.type === "DIRECTORY"
                   ? `<img src="./assets/directory.png" />`
@@ -67,7 +71,8 @@ export default function BodyDirectory({
               <div>${directory.name}</div>
             </div>
           `
-      )}`;
+        )
+        .join("")}`;
     }
     this.$element.querySelectorAll(".Node").forEach(($item, index) => {
       let temp = "";
